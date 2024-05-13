@@ -1,0 +1,81 @@
+--When you make the SQL database, make sure its called 'DBSProj' so you can copy paste this code.
+--Its better if you execute each query in its own script.
+
+
+--To create Professors table:
+use DBSProj;
+CREATE TABLE Professors (
+    Name VARCHAR(100) NOT NULL,
+    PantherID INT PRIMARY KEY,
+    Department VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    Phone BIGINT NOT NULL
+);
+
+
+--To create Students table:
+use DBSProj;
+CREATE TABLE Students (
+    Name VARCHAR(100) NOT NULL,
+    PantherID INT PRIMARY KEY,
+    Degree VARCHAR(100) NOT NULL,
+    Major VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    Phone BIGINT NOT NULL
+);
+
+
+--To create Classes table
+use DBSProj;
+CREATE TABLE Classes (
+    Department VARCHAR(100) NOT NULL,
+    Number INT NOT NULL,
+    Name VARCHAR(100) NOT NULL,
+    Credits INT NOT NULL,
+    Description TEXT,
+    Prerequisites TEXT,
+    PRIMARY KEY (Department, Number)
+);
+ALTER TABLE Classes
+ADD INDEX idx_department_number_name_credits (Department, Number, Name, Credits);
+
+
+--To create Spring2024 Table:
+USE DBSProj;
+CREATE TABLE Spring2024 (
+    Department VARCHAR(100),
+    ProfessorID INT,
+    Number INT,
+    Name VARCHAR(100),
+    Credits INT,
+    Professor VARCHAR(100),
+    Time TIME,
+    Days VARCHAR(10),
+    Location VARCHAR(100),
+    CRN INT PRIMARY KEY,
+    FOREIGN KEY (Department, Number, Name, Credits) REFERENCES Classes(Department, Number, Name, Credits),
+    FOREIGN KEY (ProfessorID) REFERENCES Professors(PantherID)
+);
+
+
+
+
+--This is for sample data:
+
+use DBSProj;
+-- Insert into Professors
+INSERT INTO Professors (Name, PantherID, Department, Email, Phone)
+VALUES ('John Doe', 1, 'Computer Science', 'johndoe@example.com', 1234567890);
+
+-- Insert into Students
+INSERT INTO Students (Name, PantherID, Degree, Major, Email, Phone)
+VALUES ('Jane Smith', 2, 'Bachelor', 'Computer Science', 'janesmith@example.com', 2345678901);
+
+-- Insert into Classes
+INSERT INTO Classes (Department, Number, Name, Credits, Description, Prerequisites)
+VALUES ('Computer Science', 101, 'Intro to Computer Science', 3, 'Introduction to the fundamental concepts of computer science.', 'None');
+
+-- Insert into Spring2024
+INSERT INTO Spring2024 (Department, ProfessorID, Number, Name, Credits, Professor, Time, Days, Location, CRN)
+VALUES ('Computer Science', 1, 101, 'Intro to Computer Science', 3, 'John Doe', '10:00:00', 'MWF', 'Room 101', 12345);
+
